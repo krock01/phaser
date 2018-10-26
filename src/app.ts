@@ -1,4 +1,5 @@
 /// <reference path="../typing/phaser.d.ts" /> 
+import {MainSence} from './sences/mainSence';
 class App {
     constructor(){
         this.start();
@@ -6,8 +7,19 @@ class App {
     start(){
         new Phaser.Game(
             {
-                width:200,
-                height:200
+                type:Phaser.AUTO,
+                width:800,
+                height:600,
+                physics: {
+                    default: 'arcade',
+                    arcade: {
+                        gravity: { y: 300 },
+                        debug: false
+                    }
+                },
+                scene:[
+                    MainSence
+                ]
             }
         )
     }
