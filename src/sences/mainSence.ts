@@ -6,6 +6,7 @@ export class MainSence extends Phaser.Scene {
     bombs: Phaser.GameObjects.Group;
     stars: Phaser.GameObjects.Group;
     gameOver = false;
+    gameOverText: Phaser.GameObjects.Text;
     constructor() {
         super({
             key: "main"
@@ -105,6 +106,10 @@ export class MainSence extends Phaser.Scene {
         this.physics.add.collider(this.bombs, platforms);
 
         this.physics.add.collider(this.player, this.bombs, this.hitBomb, null, this);
+
+        // 结束语
+        this.gameOverText = this.add.text(260,260,'Game Over!!!',{fontSize:'48px', fill:'#ececec'}).setOrigin(0,0);
+        this.gameOverText.setDepth(-1);
     }
     collectionStars(player: any, star: any) {
         // 设置星星为不可见状态
@@ -139,6 +144,7 @@ export class MainSence extends Phaser.Scene {
         this.player.setTint(0xff0000);
         player.anims.play('turn');
         this.gameOver = true;
+        this.gameOverText.setDepth(1);
     }
     update() {
         // 精灵的动作
