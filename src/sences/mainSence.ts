@@ -20,7 +20,6 @@ export class MainSence extends Phaser.Scene {
             '../assets/images/dude.png',
             { frameWidth: 32, frameHeight: 48 }
         );
-        console.log('preload');
     }
     create() {
         // 第一种方法
@@ -137,29 +136,33 @@ export class MainSence extends Phaser.Scene {
         // 人物碰到炸弹后的事件
         // 停止游戏
         this.physics.pause();
+        this.player.setTint(0xff0000);
+        player.anims.play('turn');
         this.gameOver = true;
     }
     update() {
         // 精灵的动作
-        if (this.cursors.left.isDown) {
-            // 设置速度
-            this.player.setVelocityX(-160);
-            // 播放定义好的左侧跑动的动画
-            this.player.anims.play('left', true);
-        }
-        else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(160);
-
-            this.player.anims.play('right', true);
-        }
-        else {
-            this.player.setVelocityX(0);
-
-            this.player.anims.play('turn');
-        }
-        // 跳跃 判断条件:检测到按上方向键并且player的身体在他的下边缘碰撞
-        if (this.cursors.up.isDown && this.player.body.touching.down) {
-            this.player.setVelocityY(-480);
+        if(!this.gameOver){
+            if (this.cursors.left.isDown) {
+                // 设置速度
+                this.player.setVelocityX(-160);
+                // 播放定义好的左侧跑动的动画
+                this.player.anims.play('left', true);
+            }
+            else if (this.cursors.right.isDown) {
+                this.player.setVelocityX(160);
+    
+                this.player.anims.play('right', true);
+            }
+            else {
+                this.player.setVelocityX(0);
+    
+                this.player.anims.play('turn');
+            }
+            // 跳跃 判断条件:检测到按上方向键并且player的身体在他的下边缘碰撞
+            if (this.cursors.up.isDown && this.player.body.touching.down) {
+                this.player.setVelocityY(-480);
+            }
         }
     }
 }
