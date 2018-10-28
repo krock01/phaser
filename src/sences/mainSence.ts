@@ -7,6 +7,7 @@ export class MainSence extends Phaser.Scene {
     stars: Phaser.GameObjects.Group;
     gameOver = false;
     gameOverText: Phaser.GameObjects.Text;
+    gameRestartText: Phaser.GameObjects.Text;
     constructor() {
         super({
             key: "main"
@@ -109,8 +110,18 @@ export class MainSence extends Phaser.Scene {
 
         // 结束语
         this.gameOverText = this.add.text(260,260,'Game Over!!!',{fontSize:'48px', fill:'#ececec'}).setOrigin(0,0);
-        this.gameOverText.setDepth(-1);
+        this.gameOverText.setVisible(false);
+        // 重新开始
+        this.gameRestartText = this.add.text(260,360, 'Restart', {fontSize:'48px', fill:'#ececec'}).setOrigin(0,0);
+        this.gameRestartText.setVisible(false);
+
+        // 添加点击事件，重新开始
+        this.gameRestartText.setInteractive();
+        this.gameRestartText.on('pointerdown',()=>{
+            this.scene.restart();
+        })
     }
+
     collectionStars(player: any, star: any) {
         // 设置星星为不可见状态
         star.disableBody(true, true);
@@ -144,8 +155,10 @@ export class MainSence extends Phaser.Scene {
         this.player.setTint(0xff0000);
         player.anims.play('turn');
         this.gameOver = true;
-        this.gameOverText.setDepth(1);
+        this.gameOverText.setVisible(true);
+        this.gameRestartText.setVisible(true);
     }
+    
     update() {
         // 精灵的动作
         if(!this.gameOver){
